@@ -21,13 +21,11 @@ public class ExerciceOptional implements IExerciceOptional {
     @Override
     public String getNameFirstArtisteInIpod(Person person) {
         // TODO
-        Optional <Person> optionalPerson = Optional.ofNullable(person);
-        String firstArtiste =
-                optionalPerson.map(test -> test.dansMonIpod)
-                        .filter(testList -> !testList.isEmpty())
-                        .map(testList -> testList.get(0).nom)
-                        .orElse("unknown") ;
-        return firstArtiste;
+        return Optional.ofNullable(person)
+                .map(test -> test.dansMonIpod)
+                .filter(testList -> !testList.isEmpty())
+                .map(testList -> testList.get(0).nom)
+                .orElse("unknown") ;
 
 //        sans optional
 //        if (person != null && !person.dansMonIpod.isEmpty())
@@ -45,12 +43,10 @@ public class ExerciceOptional implements IExerciceOptional {
     @Override
     public String getNameOfChef(Person person) {
         //TODO
-        Optional <Person> optionalPerson = Optional.ofNullable(person);
-        String nameOfChief =
-                optionalPerson.flatMap(test -> test.chef)
-                        .map(test -> test.nom)
-                        .orElse("Eric");
-        return nameOfChief;
+        return Optional.ofNullable(person)
+                .flatMap(test -> test.chef)
+                .map(test -> test.nom)
+                .orElse("Eric");
 
         //        sans optional
 //        if (person != null && person.chef.isPresent())

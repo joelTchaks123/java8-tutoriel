@@ -103,12 +103,12 @@ public class ExerciceStream implements IExerciceStream {
     @Override
     public Map<String, Double> averageAgeBySex(final List<Person> persons) {
         //TODO
-         Map<String, Double> mapAverageAgeBySex = persons.stream()
+        return  persons.stream()
                 .collect(
                         Collectors.groupingBy(
                                 p -> p.sexe,
                                 Collectors.averagingInt(Person::getAge)));
-        return mapAverageAgeBySex;
+
     }
 
 
