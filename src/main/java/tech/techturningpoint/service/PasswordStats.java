@@ -1,5 +1,6 @@
 package tech.techturningpoint.service;
 
+
 //import com.sun.tools.javac.tree.TreeInfo;
 import tech.techturningpoint.model.Person;
 
@@ -9,6 +10,7 @@ import java.util.function.Supplier;
 //import java.util.random.RandomGeneratorFactory;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import java.util.stream.Stream;
 
 /**
@@ -72,6 +74,7 @@ public class PasswordStats implements IPasswordStats {
 
     /**
      * Est un mot de passe costaud.
+     *
      * @param password Mot de passe à tester
      * @return true si mot de passe fort
      */
@@ -89,18 +92,22 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public List<String> getAllWithNumbers(Supplier<Stream<String>> allPasswords) {
+
         //TODO
+
         return allPasswords.get().filter(hasNumber)
                 .collect(Collectors.toList());
     }
 
     /**
      * Retourne tous les mots de passe ayant au moins une lettre capitale et une minuscule.
+     *
      * @param allPasswords Stream de mots de passe
      * @return tous ces mots de passe
      */
     @Override
     public List<String> getAllWithUppercaseAndLowercase(Supplier<Stream<String>> allPasswords) {
+
         //TODO
         return allPasswords.get().filter(hasUppercase.and(hasLowercase))
                 .collect(Collectors.toList());
@@ -108,24 +115,27 @@ public class PasswordStats implements IPasswordStats {
 
     /**
      * Retourne tous les mots de passe ayant au moins un caractère spécial.
+     *
      * @param allPasswords Stream de mots de passe
      * @return tous ces mots de passe
      */
     @Override
     public List<String> getAllWithSpecialChars(Supplier<Stream<String>> allPasswords) {
         //TODO
+
         return allPasswords.get().filter(hasSpecial)
                 .collect(Collectors.toList());
     }
 
     /**
      * Retourne tous les mots de passe forts.
+     *
      * @param allPasswords Stream de mots de passe
      * @return tous ces mots de passe
      */
     @Override
     public List<String> getAllStrong(Supplier<Stream<String>> allPasswords) {
-        //TODO
+
         return allPasswords.get().filter(isStrongPassword)
                 .collect(Collectors.toList());
     }
@@ -140,14 +150,12 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public Map<Integer, Long> countBySpecialCharPosition(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        Map<Integer, Long> newCouplePositionCountPwd =
-                allPasswords.get().filter(hasSpecial)
-                        //mieux methode d'utiliser hasSpecial
-                        .map(p -> getIndexOfSpecialChar(p))
-                        .flatMap(i -> i.stream())
-                                .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
-        return newCouplePositionCountPwd;
+
+        return allPasswords.get().filter(hasSpecial)
+                //mieux methode d'utiliser hasSpecial
+                .map(this::getIndexOfSpecialChar)
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
 
     }
 
@@ -161,6 +169,7 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public Map<Integer, List<String>> getAllBySpecialCharPosition(Supplier<Stream<String>> allPasswords) {
+
         //TODO
         Map<Integer, List<String>> newCouplePositionCountPwd =
                 allPasswords.get().filter(hasSpecial)
@@ -196,7 +205,7 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public List<String> getAllWithOnlyOneLastSpecialChar(Supplier<Stream<String>> allPasswords) {
-        //TODO
+
         return allPasswords.get().filter(hasSpecial.and(p -> getIndexOfSpecialChar(p).get(0).equals(p.length() - 1)))
                 .collect(Collectors.toList());
     }

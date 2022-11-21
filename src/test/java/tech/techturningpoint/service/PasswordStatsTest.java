@@ -92,12 +92,14 @@ public class PasswordStatsTest {
         Supplier<Stream<String>> allPasswords = readFile();
         long countAllStrong = pstats.getAllStrong(allPasswords).size();
         long countAllWithSpecialChars = pstats.getAllWithSpecialChars(allPasswords).size();
+//        long countAnSpecialCharsInTheEnd = pstats.getAllWithOnlyOneLastSpecialChar(allPasswords).size();
         long countAllWithNumbers = pstats.getAllWithNumbers(allPasswords).size();
         long countAllWithUppercaseAndLowercase = pstats.getAllWithUppercaseAndLowercase(allPasswords).size();
         assertThat(countAllStrong).isEqualTo(0);
         assertThat(countAllWithSpecialChars).isEqualTo(804);
         assertThat(countAllWithNumbers).isEqualTo(14945);
         assertThat(countAllWithUppercaseAndLowercase).isEqualTo(13457);
+//        assertThat(countAnSpecialCharsInTheEnd).isEqualTo(804);
     }
 
 
