@@ -90,9 +90,7 @@ public class PasswordStats implements IPasswordStats {
     @Override
     public List<String> getAllWithNumbers(Supplier<Stream<String>> allPasswords) {
         //TODO
-        return allPasswords.get().filter(p -> {
-                    return hasNumber.test(p);
-                })
+        return allPasswords.get().filter(hasNumber)
                 .collect(Collectors.toList());
     }
 
@@ -104,13 +102,7 @@ public class PasswordStats implements IPasswordStats {
     @Override
     public List<String> getAllWithUppercaseAndLowercase(Supplier<Stream<String>> allPasswords) {
         //TODO
-//        System.out.println(allPasswords.get().filter(p -> {
-//                    return hasUppercase.and(hasLowercase).test(p);
-//                })
-//                .collect(Collectors.toList()));
-        return allPasswords.get().filter(p -> {
-                    return hasUppercase.and(hasLowercase).test(p);
-                })
+        return allPasswords.get().filter(hasUppercase.and(hasLowercase))
                 .collect(Collectors.toList());
     }
 
@@ -122,9 +114,7 @@ public class PasswordStats implements IPasswordStats {
     @Override
     public List<String> getAllWithSpecialChars(Supplier<Stream<String>> allPasswords) {
         //TODO
-        return allPasswords.get().filter(p -> {
-                    return hasSpecial.test(p);
-                })
+        return allPasswords.get().filter(hasSpecial)
                 .collect(Collectors.toList());
     }
 
@@ -136,9 +126,7 @@ public class PasswordStats implements IPasswordStats {
     @Override
     public List<String> getAllStrong(Supplier<Stream<String>> allPasswords) {
         //TODO
-        return allPasswords.get().filter(p -> {
-                    return isStrongPassword.test(p);
-                })
+        return allPasswords.get().filter(isStrongPassword)
                 .collect(Collectors.toList());
     }
 
@@ -159,13 +147,6 @@ public class PasswordStats implements IPasswordStats {
                         .map(p -> getIndexOfSpecialChar(p))
                         .flatMap(i -> i.stream())
                                 .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
-
-//        System.out.println(newCouplePosition_CountPwd);
-//                persons.stream()
-//                .collect(
-//                        Collectors.groupingBy(
-//                                p -> p.sexe,
-//                                Collectors.averagingInt(Person::getAge)));
         return newCouplePositionCountPwd;
 
     }
@@ -183,7 +164,6 @@ public class PasswordStats implements IPasswordStats {
         //TODO
         Map<Integer, List<String>> newCouplePositionCountPwd =
                 allPasswords.get().filter(hasSpecial)
-                        //mieux methode d'utiliser hasSpecial
                         .map(p -> {
                             List<Integer> listPosition = getIndexOfSpecialChar(p);
                             ArrayList<AbstractMap.SimpleEntry<Integer, String>>

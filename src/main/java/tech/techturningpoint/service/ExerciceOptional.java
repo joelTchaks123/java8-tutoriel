@@ -20,18 +20,13 @@ public class ExerciceOptional implements IExerciceOptional {
      */
     @Override
     public String getNameFirstArtisteInIpod(Person person) {
-//        Optional<List<Artiste>> firstArtiste = Optional.of(person.dansMonIpod);
-//        Optional firstArtiste = optionalPerson.map(Person::getDansMonIpod).get() .;
-//        firstArtiste .map()
-
+        // TODO
         Optional <Person> optionalPerson = Optional.ofNullable(person);
         String firstArtiste =
                 optionalPerson.map(test -> test.dansMonIpod)
                         .filter(testList -> !testList.isEmpty())
                         .map(testList -> testList.get(0).nom)
                         .orElse("unknown") ;
-
-//        System.out.println(firstArtiste);
         return firstArtiste;
 
 //        sans optional

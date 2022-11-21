@@ -34,8 +34,6 @@ public class Person {
      */
     public Optional<Person> chef = Optional.empty();
 
-
-
     /**
      * Constructeur.
      * @param nom nom usuel
@@ -55,14 +53,6 @@ public class Person {
     public void setAge(int age) {
         this.age = age;
     }
-
-//    public List<Artiste> getDansMonIpod() {
-//        return dansMonIpod;
-//    }
-//
-//    public void setDansMonIpod(List<Artiste> dansMonIpod) {
-//        this.dansMonIpod = dansMonIpod;
-//    }
 
     @Override
     public String toString() {

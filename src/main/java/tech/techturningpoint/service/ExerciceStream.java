@@ -63,20 +63,8 @@ public class ExerciceStream implements IExerciceStream {
     @Override
     public double averageAge(final List<Person> persons) {
         //TODO
-//       System.out.println(persons.stream()
-//               .collect(Collectors.averagingDouble(p -> p.getAge())));
         return persons.stream()
-                .collect(Collectors.averagingInt(p -> p.getAge()))
-                ;
-//
-//        System.out.println(persons.stream()
-//                .mapToInt(p -> p.getAge())
-//                .average()
-//                .getAsDouble() );
-//        return persons.stream()
-//                .mapToInt(p -> p.getAge())
-//                .average()
-//                .getAsDouble() ;
+                .collect(Collectors.averagingInt(p -> p.getAge()));
     }
 
     /**
@@ -89,16 +77,8 @@ public class ExerciceStream implements IExerciceStream {
         //TODO
         return persons.stream()
                 .filter(p -> p.sexe == "M" || p.sexe.toLowerCase() == "homme")
-          .collect(Collectors.averagingDouble(p -> p.getAge()));
-
-//        double average = persons
-//            .stream()
-//            .filter(p -> p.sexe == "M" || p.sexe.toLowerCase() == "homme")
-//            .mapToInt(Person::getAge)
-//            .average()
-//            .getAsDouble();
-//        return average;
-}
+                .collect(Collectors.averagingDouble(p -> p.getAge()));
+    }
 
     /**
      * Faire une moyenne des âges des personnes dont le nom commence par une lettre.
@@ -109,10 +89,6 @@ public class ExerciceStream implements IExerciceStream {
     @Override
     public double averageAgeByInitial(final List<Person> persons, final String letter) {
         //TODO
-//        return persons.stream()
-//                .filter(p -> p.nom.matches("^[A_Za_z]") )
-//                .collect(Collectors.averagingInt(p -> p.getAge()));
-
         return persons.stream()
                 .filter(p -> p.nom.startsWith(letter) )
                 .collect(Collectors.averagingDouble(p -> p.getAge()));
@@ -145,38 +121,6 @@ public class ExerciceStream implements IExerciceStream {
     @Override
     public List<Person> getMainstreamMusicListenersJava8(final List<Person> persons){
         //TODO
-//        List<Person> listeners = new ArrayList<>();
-//        for (Person person : persons) {
-//            boolean isBestSeller = false;
-//            for (Artiste a : person.dansMonIpod) {
-//                if (a.classement <= 10) {
-//                    isBestSeller = true;
-//                    break;
-//                }
-//            }
-//            if (isBestSeller)
-//                listeners.add(person);
-//        }
-//        Collections.sort(listeners, new Comparator<Person>() {
-//            public int compare(Person a1, Person a2) {
-//                return a1.nom.compareTo(a2.nom);
-//            }
-//        });
-//        return listeners;
-
-
-
-//        System.out.println(persons.stream()
-//                .filter(p -> !p.dansMonIpod.isEmpty() )
-//                .filter(person -> {
-//                    return person.dansMonIpod.stream()
-//                            .anyMatch(artiste -> artiste.classement <= 10) ;
-//                } )
-//                .sorted(
-//                        (a,b) -> {return a.nom.compareTo(b.nom);}
-//                )
-//                .collect(Collectors.toList()));
-
         return persons.stream()
                 .filter(p -> !p.dansMonIpod.isEmpty() )//pas obliger car ??? (complete)
                 .filter(person -> {
