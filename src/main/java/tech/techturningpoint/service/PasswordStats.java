@@ -1,11 +1,9 @@
 package tech.techturningpoint.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -59,10 +57,17 @@ public class PasswordStats implements IPasswordStats {
      */
     public Predicate<String> isStrongPassword =
             //TODO
-            isNotBlank;
+            isNotBlank.and(hasUppercase)
+                    .and(hasLowercase)
+                    .and(hasNumber)
+                    .and(hasSpecial)
+                    .and(isLongEnough)
+                    .and(isNotTooLong)
+                    .and(hasNoRepetition);
 
     /**
      * Est un mot de passe costaud.
+     *
      * @param password Mot de passe à tester
      * @return true si mot de passe fort
      */
@@ -80,41 +85,44 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public List<String> getAllWithNumbers(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new ArrayList<>();
+        return allPasswords.get().filter(hasNumber)
+                .collect(Collectors.toList());
     }
 
     /**
      * Retourne tous les mots de passe ayant au moins une lettre capitale et une minuscule.
+     *
      * @param allPasswords Stream de mots de passe
      * @return tous ces mots de passe
      */
     @Override
     public List<String> getAllWithUppercaseAndLowercase(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new ArrayList<>();
+        return allPasswords.get().filter(hasUppercase.and(hasLowercase))
+                .collect(Collectors.toList());
     }
 
     /**
      * Retourne tous les mots de passe ayant au moins un caractère spécial.
+     *
      * @param allPasswords Stream de mots de passe
      * @return tous ces mots de passe
      */
     @Override
     public List<String> getAllWithSpecialChars(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new ArrayList<>();
+        return allPasswords.get().filter(hasSpecial)
+                .collect(Collectors.toList());
     }
 
     /**
      * Retourne tous les mots de passe forts.
+     *
      * @param allPasswords Stream de mots de passe
      * @return tous ces mots de passe
      */
     @Override
     public List<String> getAllStrong(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new ArrayList<>();
+        return allPasswords.get().filter(isStrongPassword)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -127,8 +135,12 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public Map<Integer, Long> countBySpecialCharPosition(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new HashMap<>();
+        return allPasswords.get().filter(hasSpecial)
+                //mieux methode d'utiliser hasSpecial
+                .map(this::getIndexOfSpecialChar)
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
+
     }
 
     /**
@@ -141,8 +153,24 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public Map<Integer, List<String>> getAllBySpecialCharPosition(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new HashMap<>();
+        return allPasswords.get().filter(hasSpecial)
+                //mieux methode d'utiliser hasSpecial
+                .map(p -> {
+                    List<Integer> positions = getIndexOfSpecialChar(p);
+                    ArrayList<AbstractMap.SimpleEntry<Integer, String>> posPasswords = new ArrayList<>();
+
+                    for (Integer position : positions) {
+                        posPasswords.add(new AbstractMap.SimpleEntry<>(position, p));
+                    }
+
+                    return posPasswords;
+                })
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(
+                        AbstractMap.SimpleEntry::getKey,
+                        Collectors.mapping(
+                                AbstractMap.SimpleEntry::getValue,
+                                Collectors.toList())));
     }
 
     /**
@@ -156,7 +184,7 @@ public class PasswordStats implements IPasswordStats {
      */
     @Override
     public List<String> getAllWithOnlyOneLastSpecialChar(Supplier<Stream<String>> allPasswords) {
-        //TODO
-        return new ArrayList<>();
+        return allPasswords.get().filter(hasSpecial.and(p -> getIndexOfSpecialChar(p).get(0).equals(p.length() - 1)))
+                .collect(Collectors.toList());
     }
 }

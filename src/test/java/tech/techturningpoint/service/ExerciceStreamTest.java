@@ -62,30 +62,30 @@ public class ExerciceStreamTest {
      */
     @Test
     public void validate_ex_2() {
-        SoftAssertions softly = new SoftAssertions();
+//        SoftAssertions softly = new SoftAssertions();
         // faire une moyenne des âges
         double moyenneAge = exo.averageAge(myHeroes);
-        softly.assertThat(moyenneAge).isEqualTo(30.8);
-        softly.assertThat(exo.averageAge(Lists.emptyList())).isEqualTo(0);
+        assertThat(moyenneAge).isEqualTo(30.8);
+        assertThat(exo.averageAge(Lists.emptyList())).isEqualTo(0);
 
         // faire une moyenne des âges des hommes
         double moyenneAgeHomme = exo.averageAgeMale(myHeroes);
-        softly.assertThat(moyenneAgeHomme).isEqualTo(33.0);
-        softly.assertThat(exo.averageAgeMale(Lists.emptyList())).isEqualTo(0);
+        assertThat(moyenneAgeHomme).isEqualTo(33.0);
+        assertThat(exo.averageAgeMale(Lists.emptyList())).isEqualTo(0);
 
         // faire une moyenne des âges des Héros commençant par 'S'
         double moyenneAgeCommencantParS = exo.averageAgeByInitial(myHeroes, "S");
-        softly.assertThat(moyenneAgeCommencantParS).isEqualTo(34.5);
-        softly.assertThat(exo.averageAgeByInitial(Lists.emptyList(), "S")).isEqualTo(0);
+        assertThat(moyenneAgeCommencantParS).isEqualTo(34.5);
+        assertThat(exo.averageAgeByInitial(Lists.emptyList(), "S")).isEqualTo(0);
 
         // faire une moyenne des âges des hommes et des femmes
         Map<String, Double> mapAverageAgeBySex = exo.averageAgeBySex(myHeroes);
-        softly.assertThat(mapAverageAgeBySex).contains(
+        assertThat(mapAverageAgeBySex).contains(
                 entry("F", 22.0),
                 entry("M", 33.0));
-        softly.assertThat(exo.averageAgeBySex(Lists.emptyList())).isEmpty();
+        assertThat(exo.averageAgeBySex(Lists.emptyList())).isEmpty();
 
-        softly.assertAll();
+//        softly.assertAll();
     }
 
     /**
@@ -135,6 +135,7 @@ public class ExerciceStreamTest {
 
         List<Person> personnes = Lists.newArrayList(p1, p2, p3, p4, p5, p6);
         List<Person> oldResult = exo.getMainstreamMusicListeners(personnes);
+
         List<Person> newResult = exo.getMainstreamMusicListenersJava8(personnes);
         assertThat(newResult).isEqualTo(oldResult);
     }

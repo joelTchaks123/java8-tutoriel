@@ -1,6 +1,7 @@
 package tech.techturningpoint.service;
 
 
+import tech.techturningpoint.model.Artiste;
 import tech.techturningpoint.model.Person;
 
 import java.util.*;
@@ -64,18 +65,18 @@ public class ExerciceStream implements IExerciceStream {
         //TODO
 //       System.out.println(persons.stream()
 //               .collect(Collectors.averagingDouble(p -> p.getAge())));
-//        return persons.stream()
-//                .collect(Collectors.averagingInt(p -> p.getAge()))
-//                ;
+        return persons.stream()
+                .collect(Collectors.averagingInt(p -> p.getAge()))
+                ;
 //
 //        System.out.println(persons.stream()
 //                .mapToInt(p -> p.getAge())
 //                .average()
 //                .getAsDouble() );
-        return persons.stream()
-                .mapToInt(p -> p.getAge())
-                .average()
-                .getAsDouble() ;
+//        return persons.stream()
+//                .mapToInt(p -> p.getAge())
+//                .average()
+//                .getAsDouble() ;
     }
 
     /**
@@ -86,18 +87,18 @@ public class ExerciceStream implements IExerciceStream {
     @Override
     public double averageAgeMale(final List<Person> persons) {
         //TODO
-//        return persons.stream()
-//                .filter(p -> p.sexe == "M" || p.sexe.toLowerCase() == "homme")
-//          .collect(Collectors.averagingDouble(p -> p.getAge()));
-
-        double average = persons
-                .stream()
+        return persons.stream()
                 .filter(p -> p.sexe == "M" || p.sexe.toLowerCase() == "homme")
-                .mapToInt(Person::getAge)
-                .average()
-                .getAsDouble();
-        return average;
-    }
+          .collect(Collectors.averagingDouble(p -> p.getAge()));
+
+//        double average = persons
+//            .stream()
+//            .filter(p -> p.sexe == "M" || p.sexe.toLowerCase() == "homme")
+//            .mapToInt(Person::getAge)
+//            .average()
+//            .getAsDouble();
+//        return average;
+}
 
     /**
      * Faire une moyenne des âges des personnes dont le nom commence par une lettre.
@@ -144,8 +145,47 @@ public class ExerciceStream implements IExerciceStream {
     @Override
     public List<Person> getMainstreamMusicListenersJava8(final List<Person> persons){
         //TODO
-        return new ArrayList();
+//        List<Person> listeners = new ArrayList<>();
+//        for (Person person : persons) {
+//            boolean isBestSeller = false;
+//            for (Artiste a : person.dansMonIpod) {
+//                if (a.classement <= 10) {
+//                    isBestSeller = true;
+//                    break;
+//                }
+//            }
+//            if (isBestSeller)
+//                listeners.add(person);
+//        }
+//        Collections.sort(listeners, new Comparator<Person>() {
+//            public int compare(Person a1, Person a2) {
+//                return a1.nom.compareTo(a2.nom);
+//            }
+//        });
+//        return listeners;
+
+
+
+//        System.out.println(persons.stream()
+//                .filter(p -> !p.dansMonIpod.isEmpty() )
+//                .filter(person -> {
+//                    return person.dansMonIpod.stream()
+//                            .anyMatch(artiste -> artiste.classement <= 10) ;
+//                } )
+//                .sorted(
+//                        (a,b) -> {return a.nom.compareTo(b.nom);}
+//                )
+//                .collect(Collectors.toList()));
+
+        return persons.stream()
+                .filter(p -> !p.dansMonIpod.isEmpty() )//pas obliger car ??? (complete)
+                .filter(person -> {
+                    return person.dansMonIpod.stream()
+                            .anyMatch(artiste -> artiste.classement <= 10) ;
+                } )
+                .sorted(
+                        Comparator.comparing(p -> p.nom)
+                )
+                .collect(Collectors.toList());
     }
-
-
 }
